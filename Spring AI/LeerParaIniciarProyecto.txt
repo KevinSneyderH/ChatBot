@@ -1,0 +1,21 @@
+Vaya a este link e instale el modulo de la AI para que esta funcione de manera local en tu pc(recomendable hacerlo en un pc con 8gb o mas de ram ya que la AI a la hora de hacer consultas consume al menos 2GB de ram)
+
+Link Descarga:
+https://ollama.com/download/windows
+
+Luego ejecute e instale normal.
+
+una vez descargado vas a la flechita para ver los programas en segundo plano abajo a la derecha, vas a ver el programa ejecutándose le das click derecho y entras en view logs.
+
+Luego de esto arriba en la dirección de archivo vas a colocar cmd y dar enter para luego ejecutar este comando:
+
+Ollama run llama3.2 
+
+(Cabe recalcar que la AI va a ocupar usar 2 GB de ram por lo que es recomendable correr esto en un dispositivo con 8GB de ram o superior)
+
+una vez ejecutado el programa se empieza a instalar el modulo de la AI (pesa igualmente 2GB), una vez descargado correctamente vas a ejecutar el proyecto normal con spring boot y dirijase al siguiente endpoint
+
+http://localhost:8082/students
+
+Y ya :D
+

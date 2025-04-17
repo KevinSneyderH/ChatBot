@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Estilo general */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            background: #f0f0f0;
+            background-image: url('/fondo.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Contenedor del saludo */
+        .saludo-container {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            border-bottom: 2px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .saludo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: black;
+        }
+
+        /* Contenedor principal */
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px;
+        }
+
+        .form-container {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            flex: 1;
+        }
+
+        .form-container img {
+            display: block;
+            margin: 0 auto;
+            max-width: 70%;
+            height: auto;
+            padding-bottom: 20px;
+        }
+
+        .chatbot-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .chat-window {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            background: #f1f1f1;
+            border: 2px solid #1047ac;
+            border-radius: 10px;
+            padding: 10px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .chat-window div {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user {
+            background: #dff0d8;
+            text-align: right;
+        }
+
+        .UniBot {
+            background: #d9edf7;
+            text-align: left;
+        }
+
+        .input-container {
+            display: flex;
+            width: 100%;
+            max-width: 400px;
+            align-items: center;
+        }
+
+        .input-container input {
+            flex: 1;
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            margin-right: 10px;
+        }
+
+        .input-container input:focus {
+            border-color: #1047ac;
+            outline: none;
+        }
+
+        .send-button {
+            background: #1047ac;
+            color: #fff;
+            padding: 12px;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .send-button:hover {
+            background: #5b86e5;
+        }
+
+        .logout-button {
+            margin-top: 10px;
+            background: #1047ac;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .logout-button:hover {
+            background: #0c398a;
+        }
+
+        /* Media query para dispositivos pequeños */
+        @media (max-width: 480px) {
+            .chat-window {
+                height: 500px;
+
+            }
+
+            .form-container img {
+                max-width: 100%;
+            }
+
+            .UniBot {
+                font-size: 1.2rem;
+            }
+
+            .user {
+                font-size: 1.2rem;
+            }
+
+
+            .input-container input {
+                font-size: 1.2rem;
+            }
+
+            .send-button {
+                font-size: 1.4rem;
+                padding: 10px;
+            }
+
+            .saludo {
+                font-size: 2rem;
+            }
+
+            .logout-button {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Saludo separado arriba -->
+    <div class="saludo-container">
+        <h2 class="saludo">Bienvenid@, <span th:text="${studentName}"></span>!</h2>
+    </div>
+
+    <!-- Contenedor principal -->
+    <div class="container">
+        <div class="form-container">
+            <img src="/Unisimon.png" alt="Unisimon">
+            <div class="chatbot-container">
+                <div class="chat-window" id="chat"></div>
+            </div>
+            <div class="input-container">
+                <input type="text" id="userMessage" placeholder="Escribe tu mensaje aquí...">
+                <button class="send-button" id="sendButton"><i class="fas fa-paper-plane"></i></button>
+            </div>
+            <button class="logout-button" id="logoutButton">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            addMessage("Para empezar, escribe tu duda aqui abajo 🤖", "UniBot");
+        });
+
+        document.getElementById("userMessage").addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                document.getElementById("sendButton").click();
+            }
+        });
+
+        document.getElementById("sendButton").addEventListener("click", function () {
+            const userMessage = document.getElementById("userMessage").value.trim();
+            if (userMessage) {
+
+                const chatDiv = document.getElementById("chat");
+                if (chatDiv.firstChild && chatDiv.firstChild.innerText === "Escribe tu duda aquí :D") {
+                    chatDiv.firstChild.remove();
+                }
+
+                addMessage("Tú: " + userMessage, "user");
+                document.getElementById("userMessage").value = "";
+
+                const loadingMessage = addMessage("Generando respuesta...", "UniBot");
+
+                fetch("http://localhost:8082/chatbot/message", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ message: userMessage }),
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        loadingMessage.remove();
+                        addMessage("UniBot🤖: " + data, "UniBot");
+                    })
+                    .catch(() => {
+                        loadingMessage.remove();
+                        addMessage("Error: No se pudo obtener respuesta del bot.", "UniBot");
+                    });
+            }
+        });
+
+        function addMessage(message, sender) {
+            const chatDiv = document.getElementById("chat");
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add(sender === "user" ? "user" : "UniBot");
+            messageDiv.innerHTML = message;
+            chatDiv.appendChild(messageDiv);
+            chatDiv.scrollTop = chatDiv.scrollHeight;
+            return messageDiv;
+        }
+
+        document.getElementById("logoutButton").addEventListener("click", function () {
+            window.history.back();
+        });
+    </script>
+</body>
+
+</html>

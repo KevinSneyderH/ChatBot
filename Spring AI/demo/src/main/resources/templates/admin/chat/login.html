@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login ChatBot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            padding: 20px;
+            background-image: url('/fondo.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 800px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: transform 0.4s ease;
+        }
+
+        .form-container {
+            padding: 40px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .input-container input {
+            margin-bottom: 10px;
+            padding: 12px;
+            font-size: 1.1rem;
+            border: 2px solid #c4c4c4;
+            border-radius: 10px;
+            transition: border 0.3s;
+        }
+
+        .input-container input:focus {
+            border-color: #5277d0;
+            outline: none;
+            border-width: 2px;
+        }
+
+        .button {
+            background: #1047ac;
+            color: #fff;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+
+        }
+
+        .button:hover {
+            background: #0c398a;
+        }
+
+        .secondary {
+            background: #1047ac;
+
+        }
+
+        .secondary:hover {
+            background: #0c398a;
+        }
+
+        .text-info {
+            margin: 20px 0;
+            color: #888;
+        }
+
+        .alert-danger {
+
+
+            background-color: #f4d6d2;
+            border-color: #f4d6d2;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            padding: 12px;
+            font-size: 1.1rem;
+            width: 100%;
+
+        }
+    </style>
+
+
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container login-container">
+            <form id="loginForm" action="#" th:action="@{/students/login}" method="post">
+
+                <div>
+                    <img src="/Unisimon.png" alt="Unisimon" width="100%" height="100%">
+                </div>
+
+                <div id="errorMessage" th:if="${error}" style="color: #691911;" class="alert-danger">
+                    <p th:text="${error}"></p>
+                </div>
+
+                <div class="input-container">
+                    <input type="text" id="usuario" name="usuario" placeholder="Nombre de usuario" required
+                        autocomplete="off">
+                    <input type="password" id="contraseña" name="contraseña" placeholder="Contraseña" required
+                        autocomplete="off">
+                </div>
+
+                <button type="submit" class="button">Acceder</button>
+
+                <button type="button" onclick="redirectToChatbot()" class="button secondary">Regresar</button>
+
+            </form>
+
+            <script>
+                window.onload = function () {
+                    const errorMessage = document.getElementById("errorMessage");
+                    if (errorMessage) {
+                        setTimeout(() => {
+                            errorMessage.style.display = 'none';
+                        }, 3000);
+                    }
+                };
+
+                function redirectToChatbot() {
+                    window.location.href = '/students';
+                }
+            </script>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
